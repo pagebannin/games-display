@@ -8,7 +8,8 @@ const Main = styled.main`
 
   @media only screen and (min-width: 1024px) {
     max-width: 800px;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 0;
   }
 
