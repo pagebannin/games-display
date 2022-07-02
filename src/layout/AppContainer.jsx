@@ -1,9 +1,10 @@
 import styled from "styled-components"
 
-const Main = styled.main`
+const Main = styled.section`
   padding: 0.3rem;
+  overflow-x: hidden;
   @media only screen and (min-width: 480px) {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem 0 1rem;
   }
 
   @media only screen and (min-width: 1024px) {
@@ -11,6 +12,7 @@ const Main = styled.main`
     margin-left: auto;
     margin-right: auto;
     margin-top: 0;
+    margin-bottom: 0;
   }
 
   @media only screen and (min-width: 1200px) {
@@ -18,7 +20,7 @@ const Main = styled.main`
   }
 `;
 
-export function AppBody({ children }) {
+export function AppContainer({ children }) {
   return (
     <Main>{children}</Main>
   )

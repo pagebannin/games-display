@@ -7,7 +7,7 @@ import { theme } from './app.theme';
 import { AppLayout } from './layout';
 
 const GameProfile = lazy(() => import('./containers/GameProfile'));
-const GamesDisplay = lazy(() => import('./containers/GamesDisplay'));
+const GamesList = lazy(() => import('./containers/GamesList'));
 
 export default function App() {
 
@@ -17,7 +17,7 @@ export default function App() {
         <Suspense fallback={<h1>Loading...</h1>}>
           <Routes>
             <Route path="/" element={<AppLayout />}>
-              <Route path="" element={<GamesDisplay />} />
+              <Route path="" element={<GamesList />} />
               <Route path="game/:id" element={<GameProfile />} />
             </Route>
           </Routes>

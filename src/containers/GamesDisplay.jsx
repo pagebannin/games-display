@@ -37,7 +37,7 @@ const ScrollArea = styled.div`
   width: 100%;
   height: calc(100vh - 1.2rem - 2em);
   @media only screen and (min-width: 480px) {
-    height: calc(100vh - 2rem - 2em);
+    height: calc(100vh - 4rem - 2em);
   }
 `;
 
