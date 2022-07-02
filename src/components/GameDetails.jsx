@@ -1,8 +1,9 @@
 import { AppContainer } from '../layout';
 import styled from 'styled-components'
+import { ImageCarousel } from './ImageCarousel';
 
 const Header = styled.section`
-  background-color: ${props => props.theme.dark2};
+  background-color: ${props => props.theme.light2};
   width: 100%;
 `;
 
@@ -21,6 +22,11 @@ const BackgroundImage = styled.img`
   @media only screen and (min-width: 1024px) {
     max-height: 70vh;
   }
+`;
+
+const CarouselContainer = styled.section`
+  background-color: ${props => props.theme.dark2};
+  width: 100%;
 `;
 
 const FlexRow = styled.div`
@@ -45,6 +51,10 @@ const FlexRow = styled.div`
   }
 `;
 
+const BackgroundFlexItem = styled.div`
+  flex: 2;
+`;
+
 const FlexItem = styled.div`
   flex: 1;
 `;
@@ -55,21 +65,32 @@ const DescriptionContainer = styled.section`
   }
 `;
 
-export function GameDetails({ game: {
-  name = "",
-  background_image = "",
-  platforms = [],
-  released = "",
-  metacritic = "",
-  description = "",
-} }) {
+const WebsiteLink = styled.a`
+  margin-top: 1rem;
+  color: #fff;
+  &:hover {
+    color: #dbcfcf;
+  }
+`;
+
+export function GameDetails({
+  game: {
+    name = "",
+    background_image = "",
+    platforms = [],
+    released = "",
+    description = "",
+    website = "",
+  },
+  screenshots = [],
+}) {
   return (
     <div>
       <Header>
         <FlexRow>
-          <FlexItem>
+          <BackgroundFlexItem>
             <BackgroundImage src={background_image} />
-          </FlexItem>
+          </BackgroundFlexItem>
           <FlexItem>
             <h1>{name}</h1>
             <h3>Release date: {released}</h3>
@@ -77,7 +98,7 @@ export function GameDetails({ game: {
             <p>
               {platforms?.map((p) => p.platform.name)?.join(', ')}
             </p>
-            <h3>Metacritic Score: {metacritic}</h3>
+            <WebsiteLink href={website} target="_blank"><h3>Go to website</h3></WebsiteLink>
           </FlexItem>
         </FlexRow>
       </Header>
@@ -85,6 +106,11 @@ export function GameDetails({ game: {
         <h2>Game Description</h2>
         <DescriptionContainer dangerouslySetInnerHTML={{ __html: description }} />
       </AppContainer>
+      <CarouselContainer>
+        <AppContainer>
+          <ImageCarousel images={screenshots.map((screen) => screen.image)} />
+        </AppContainer>
+      </CarouselContainer>
     </div>
   )
 }
