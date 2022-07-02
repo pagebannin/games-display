@@ -84,7 +84,7 @@ export function GamesDisplay() {
       .then((res) => {
         console.log(res.data?.results);
         setGames((prevState) => [...prevState, ...res.data?.results?.map((game) => ({
-          id: game.id,
+          slug: game.slug,
           name: game.name,
           background_image: game.background_image,
           released: game.released,
@@ -143,8 +143,8 @@ export function GamesDisplay() {
     <ScrollArea>
       <Grid>
         {list?.map((game, index, self) => (
-          <Fragment key={game.id}>
-            <Link to={`/game/${game.id}`}>
+          <Fragment key={game.slug}>
+            <Link to={`/game/${game.slug}`}>
               {index === 7 && showPage > 1 && <div id="observerPointTop" ref={topLoader} />}
               <GameCard
                 name={game.name}

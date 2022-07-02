@@ -22,11 +22,20 @@ const HeaderContent = styled.div`
   }
 `;
 
+const Link = styled.a`
+  color: #fff;
+  &:hover {
+    color: #dbcfcf;
+  }
+`;
+
 export function AppHeader() {
   return (
     <Header>
       <HeaderContent>
-        <h2>Games Display</h2>
+        <Link href="/">
+          <h2>Games Display</h2>
+        </Link>
       </HeaderContent>
     </Header>
   )
