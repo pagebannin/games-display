@@ -23,12 +23,6 @@ const Grid = styled.section`
     grid-column-gap: 0.6rem;
   }
 
-  @media only screen and (min-width: 1200px) {
-    grid-template-columns: repeat(4, 1fr);
-    grid-row-gap: 0.5rem;
-    grid-column-gap: 0.6rem;
-  }
-
 `;
 
 const ScrollArea = styled.div`
@@ -154,14 +148,14 @@ export function GamesDisplay({ platform = null, search = null }) {
         {list?.map((game, index, self) => (
           <Fragment key={game.slug}>
             <Link to={`/game/${game.slug}`}>
-              {index === 7 && showPage > 1 && <div id="observerPointTop" ref={topLoader} />}
               <GameCard
                 name={game.name}
                 backgroundSrc={game.background_image}
                 releaseDate={game.released}
                 rating={game.rating}
               />
-              {index === self.length - 8 && <div id="observerPointBottom" ref={bottomLoader} />}
+              {index === 1 && showPage > 1 && <div id="observerPointTop" ref={topLoader} />}
+              {index === self.length - 4 && <div id="observerPointBottom" ref={bottomLoader} />}
             </Link>
           </Fragment>
         ))}

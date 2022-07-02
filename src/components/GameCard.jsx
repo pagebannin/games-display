@@ -7,6 +7,7 @@ const Card = styled.article`
   overflow: hidden;
   transition: transform .25s ease-out;
   height: max-content;
+  min-height: 10rem;
   :hover {
     transform: scale(1.05);
   }
