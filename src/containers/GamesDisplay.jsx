@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState, useMemo } from "react";
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import api from '../axios';
@@ -45,27 +45,35 @@ export function GamesDisplay() {
 
   const [games, setGames] = useState([]);
   const [page, setPage] = useState(1);
-  const [showPage, setShowPage] = useState(0);
+  const [showPage, setShowPage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [loadingTop, setLoadingTop] = useState(false);
   const bottomLoader = useRef(null);
   const topLoader = useRef(null);
   const isLoading = useRef(false);
 
+  const list = useMemo(() => games?.slice(20 * (showPage - 1), (20 * (showPage + 1)) + 1), [games, showPage]);
+
   const handleBottomObserver = useCallback((entries) => {
     const target = entries[0];
     if (!isLoading.current && target.isIntersecting) {
-      setPage((prev) => prev + 1);
-      setShowPage((prev) => prev + 1);
+      setShowPage((prev) => {
+        const prevShowPage = prev;
+        setPage((prevPage) => {
+          console.log('setPage', prevShowPage, prevPage);
+          if (prevShowPage + 1 === prevPage) {
+            return prevPage + 1
+          }
+          return prevPage;
+        });
+        return prev + 1;
+      });
     }
   }, []);
 
-  const handleTopObserver = useCallback(async (entries) => {
+  const handleTopObserver = useCallback((entries) => {
     const target = entries[0];
     if (target.isIntersecting) {
-      await setLoadingTop(true);
-      await setShowPage((prev) => prev - 1);
-      await setLoadingTop(false);
+      setShowPage((prev) => prev - 1);
     }
   }, []);
 
@@ -75,7 +83,16 @@ export function GamesDisplay() {
     api('/api/games', { params: { page, pageSize: 30, } })
       .then((res) => {
         console.log(res.data?.results);
-        setGames((prevState) => [...prevState, ...res.data?.results]);
+        setGames((prevState) => [...prevState, ...res.data?.results?.map((game) => ({
+          id: game.id,
+          name: game.name,
+          background_image: game.background_image,
+          released: game.released,
+          rating: game.rating,
+        }))]);
+        if (page === 1) {
+          setShowPage(0);
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -102,7 +119,7 @@ export function GamesDisplay() {
         observer.disconnect(target);
       }
     }
-  }, [handleBottomObserver, showPage, games]);
+  }, [handleBottomObserver, list]);
 
   useEffect(() => {
     const option = {
@@ -124,14 +141,11 @@ export function GamesDisplay() {
 
   return (
     <ScrollArea>
-      {/*
-      showPage > 1 && !loadingTop && <ScrollObservePoint ref={topLoader} />
-      */}
       <Grid>
-        {games?.slice(20 * (showPage - 1), (20 * (showPage + 1)) + 1)?.map((game, index, self) => (
+        {list?.map((game, index, self) => (
           <Fragment key={game.id}>
             <Link to={`/game/${game.id}`}>
-              {index === 7 && showPage > 1 && !loadingTop && <div id="observerPointTop" ref={topLoader} />}
+              {index === 7 && showPage > 1 && <div id="observerPointTop" ref={topLoader} />}
               <GameCard
                 name={game.name}
                 backgroundSrc={game.background_image}
