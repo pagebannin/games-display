@@ -13,10 +13,13 @@ if (mode === "production") {
 module.exports = {
   mode,
   target,
-  entry:'./src/index.js',
+  entry: {
+    app: "./src/index.js",
+    serviceWorker: "./src/serviceWorker.js",
+  },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    filename: "[name].js",
     publicPath: "/",
   },
   devServer: {
