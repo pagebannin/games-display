@@ -140,7 +140,7 @@ export function GamesDisplay() {
   }, [handleTopObserver, showPage]);
 
   return (
-    <ScrollArea>
+    <>
       <Grid>
         {list?.map((game, index, self) => (
           <Fragment key={game.slug}>
@@ -158,7 +158,7 @@ export function GamesDisplay() {
         ))}
       </Grid>
       {loading && <h2>Loading...</h2>}
-    </ScrollArea>
+    </>
   );
 };
 
