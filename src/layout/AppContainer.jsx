@@ -4,7 +4,7 @@ const Main = styled.section`
   padding: 0.3rem;
   overflow-x: hidden;
   @media only screen and (min-width: 480px) {
-    padding: 0.5rem 1rem 0 1rem;
+    padding: 0.5rem 1rem;
   }
 
   @media only screen and (min-width: 1024px) {

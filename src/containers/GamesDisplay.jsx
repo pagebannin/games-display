@@ -41,7 +41,7 @@ const ScrollArea = styled.div`
   }
 `;
 
-export function GamesDisplay() {
+export function GamesDisplay({ platform = null, search = null }) {
 
   const [games, setGames] = useState([]);
   const [page, setPage] = useState(1);
@@ -78,9 +78,15 @@ export function GamesDisplay() {
   }, []);
 
   useEffect(() => {
+    setPage(1);
+    setGames([]);
+  }, [search, platform]);
+
+  useEffect(() => {
     isLoading.current = true;
     setLoading(true);
-    api('/api/games', { params: { page, pageSize: 30, } })
+    const controller = new AbortController();
+    api('/api/games', { params: { page, platforms: platform, search }, signal: controller.signal })
       .then((res) => {
         console.log(res.data?.results);
         setGames((prevState) => [...prevState, ...res.data?.results?.map((game) => ({
@@ -101,7 +107,10 @@ export function GamesDisplay() {
         isLoading.current = false;
         setLoading(false);
       });
-  }, [page]);
+    return () => {
+      controller.abort();
+    };
+  }, [page, platform, search]);
 
   useEffect(() => {
     const option = {
