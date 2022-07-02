@@ -32,7 +32,7 @@ const Content = styled.div`
   }
 `;
 
-export function GameFilters({ setSearchText = function() {}, setPlatform = function() {}, }) {
+export function GameFilters({ setSearchText = function () { }, setPlatform = function () { }, }) {
 
   const [platformsList, setPlatformsList] = useState([]);
 
@@ -53,12 +53,14 @@ export function GameFilters({ setSearchText = function() {}, setPlatform = funct
   return (
     <FilterBar>
       <Content>
-        <select onInput={(e) => setPlatform(e.target.value)}>
-          <option></option>
-          {platformsList.length > 0 && platformsList.map((platform) => (
-            <option key={platform.id} value={platform.id}>{platform.name}</option>
-          ))}
-        </select>
+        {platformsList.length > 0 ? (
+          <select onInput={(e) => setPlatform(e.target.value)}>
+            <option></option>
+            {platformsList.map((platform) => (
+              <option key={platform.id} value={platform.id}>{platform.name}</option>
+            ))}
+          </select>
+        ) : <div/>}
         <input type="text" onInput={(e) => setSearchText(e.target.value)} placeholder="search game" />
       </Content>
     </FilterBar>
